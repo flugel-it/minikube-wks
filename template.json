@@ -1,0 +1,71 @@
+{
+  "variables": {
+    "aws_vpc_id": "vpc-1c44e464",
+    "aws_subnet_id": "subnet-b81cf797",
+    "destination_regions": "us-east-1",
+    "aws_ssh_username": "ubuntu"
+  },
+
+  "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `destination_regions`}}",
+        "ami_regions": "{{user `destination_regions`}}",
+        "source_ami": "ami-80861296",
+        "instance_type": "t2.micro",
+        "vpc_id": "{{user `aws_vpc_id`}}",
+        "subnet_id": "{{user `aws_subnet_id`}}",
+        "ssh_username": "ubuntu",
+        "ami_name": "Minikube-Image-{{timestamp}}"
+      }
+  ],
+
+  "provisioners": [
+
+    {
+      "type": "file",
+      "source": "ansible/hosts",
+      "destination": "hosts"
+    },
+
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo apt-get install ansible --yes",
+        "sudo mv ~/hosts /etc/ansible/hosts"
+      ]
+    },
+
+    {
+      "type": "ansible",
+      "playbook_file": "ansible/provision.yml",
+      "extra_arguments": [ "-vvvv" ],
+      "user": "{{ user `aws_ssh_username` }}",
+      "ansible_env_vars": [
+        "ANSIBLE_NOCOLOR=True",
+        "ANSIBLE_HOST_KEY_CHECKING=False",
+        "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "set -x",
+        "ls -la ~/.ssh/id_rsa.pub",
+        "ls -la /usr/bin/minikube",
+        "ls -la /usr/bin/kubectl",
+        "minikube version",
+        "kubectl version"
+      ]
+    }
+  ]
+}
+
+
+
+
+
+

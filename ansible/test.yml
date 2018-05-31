@@ -1,0 +1,14 @@
+---
+- hosts: all
+
+  tasks:
+    - name: 'minikube vars'
+      sudo: yes
+      sudo_user: pfeifer
+      copy:
+        src: minikube.sh
+        dest: /etc/profile.d/minikube.sh
+        owner: root
+        group: root
+        mode: 0644
+        force: true

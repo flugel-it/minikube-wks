@@ -1,0 +1,41 @@
+---
+- hosts: all
+  tasks:
+    - name: 'copy ssh key'
+      sudo: true
+      template:
+        src: '../key/id_rsa.pub'
+        dest: '/home/ubuntu/.ssh/id_rsa.pub'
+        mode: 0700
+        owner: ubuntu
+        group: ubuntu
+
+    - name: 'download minikube'
+      sudo: true
+      get_url:
+        url: 'https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
+        sha256sum: '7c03650d33e029f1dbf810d27dc1fc197ad9b889f645a4d5c353bb1c46d3ff2a'
+        dest: '/usr/bin/minikube'
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: 'download k8s'
+      sudo: true
+      get_url:
+        url: "https://storage.googleapis.com/kubernetes-release/release/v1.10.3/bin/linux/amd64/kubectl"
+        sha256sum: '62893257193f9e848f383055993e63166ab67bf872c85e896ce9b9167ba85403'
+        dest: '/usr/bin/kubectl'
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: 'create kube directory'
+      file:
+        path: home/ubuntu/.kube
+        state: directory
+
+    - name: 'create kube config'
+      file:
+        path: home/ubuntu/.kube/config
+        state: touch
