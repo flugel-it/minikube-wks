@@ -4,8 +4,8 @@ Minikube workstation - Launch it quickly in AWS to try Kubernetes
 ## Step 1
 - Generate SSH-KEY
 ```
-ssh-keygen -f keys/id_rsa -t rsa -b 4096
-chmod 400 keys/id_rsa
+ssh-keygen -f key/id_rsa -t rsa -b 4096
+chmod 400 key/id_rsa
 ``` 
 
 ## Step 2

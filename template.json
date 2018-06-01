@@ -31,11 +31,17 @@
     },
 
     {
+      "type": "file",
+      "source": "scripts/install.sh",
+      "destination": "/tmp/install.sh"
+    },
+
+    {
       "type": "shell",
       "inline": [
-        "sudo apt-get update",
-        "sudo apt-get install ansible --yes",
-        "sudo mv ~/hosts /etc/ansible/hosts"
+        "cd /tmp/",
+        "chmod +x install.sh",
+        "./install.sh"
       ]
     },
 
@@ -54,10 +60,9 @@
       "type": "shell",
       "inline": [
         "set -x",
-        "ls -la ~/.ssh/id_rsa.pub",
-        "ls -la /usr/bin/minikube",
-        "ls -la /usr/bin/kubectl",
+        "minikube config set WantReportErrorPrompt false",
         "minikube version",
+        "minikube start --vm-driver=none",
         "kubectl version"
       ]
     }
