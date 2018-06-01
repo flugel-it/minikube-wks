@@ -30,20 +30,6 @@
         owner: ubuntu
         group: ubuntu
 
-#    - name: 'create kube directory'
-#      file:
-#        path: /home/ubuntu/.kube
-#        state: directory
-#        owner: ubuntu
-#        group: ubuntu
-#
-#    - name: 'create kube config'
-#      file:
-#        path: /home/ubuntu/.kube/config
-#        state: touch
-#        owner: ubuntu
-#        group: ubuntu
-
 
     - name: 'copy minikube envs'
       copy:
