@@ -15,9 +15,6 @@ Vagrant.configure('2') do |config|
   	useradd ubuntu
     mkdir -p /home/ubuntu/.ssh
     chown -R ubuntu:ubuntu /home/ubuntu
-
-    apt-get purge ansible --yes
-    apt-get autoremove --yes
   SHELL
 
   config.vm.provision :ansible_local do |ansible|
