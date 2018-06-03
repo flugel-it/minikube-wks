@@ -36,4 +36,4 @@ sed -i "s#<BASE_AMI>#${BASE_AMI}#g" ${TEMPLATE}
 sed -i "s#<AMI_NAME>#${AMI_NAME}#g" ${TEMPLATE}
 sed -i "s#<INSTANCE_TYPE>#${INSTANCE_TYPE}#g" ${TEMPLATE}
 
-
+./createImage.sh
