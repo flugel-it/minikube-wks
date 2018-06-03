@@ -18,9 +18,9 @@
         "vpc_id": "{{user `aws_vpc_id`}}",
         "subnet_id": "{{user `aws_subnet_id`}}",
         "ssh_username": "ubuntu",
-        "ami_name": "<AMI_NAME>-{{timestamp}}",
+        "ami_name": "<TAG_NAME>-{{timestamp}}",
         "tags": {
-          "Name": "<AMI_NAME>",
+          "Name": "<TAG_NAME>",
           "OS_Version": "ubuntu"
         }
       }

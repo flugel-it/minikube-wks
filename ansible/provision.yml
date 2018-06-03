@@ -12,6 +12,11 @@
         owner: ubuntu
         group: ubuntu
 
+    - name: 'create authorized_keys file'
+      shell: "cat /home/ubuntu/.ssh/id_rsa.pub >> /home/ubuntu/.ssh/authorized_keys"
+      args:
+          executable: /bin/bash
+
     - name: 'download minikube'
       get_url:
         url: 'https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
