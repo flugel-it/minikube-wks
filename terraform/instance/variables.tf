@@ -1,14 +1,24 @@
 variable "region" {
-  default = "us-west-2"
+  default = "<REGION>"
 }
 
 variable "ami" {
-  type = "map"
-  default = {
-    us-west-2 = "ami-59443326"
-  }
+  default = "<AMI_ID>"
+}
+
+variable "subnet_id" {
+  default = "<SUBNET_ID>"
 }
 
 variable "instance_type" {
-  default = "t2.micro"
+  default = "<INSTANCE_TYPE>"
+}
+
+variable "tag_instance_name" {
+  default = "<TAG_NAME>"
+
+}
+
+variable "tag_segurity_group" {
+  default = "<TAG_NAME>"
 }

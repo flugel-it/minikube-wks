@@ -30,13 +30,13 @@
 
     {
       "type": "file",
-      "source": "ansible/hosts",
+      "source": "../ansible/hosts",
       "destination": "~/hosts"
     },
 
     {
       "type": "file",
-      "source": "scripts/install.sh",
+      "source": "../scripts/install.sh",
       "destination": "/tmp/install.sh"
     },
 
@@ -50,7 +50,7 @@
 
     {
       "type": "ansible",
-      "playbook_file": "ansible/provision.yml",
+      "playbook_file": "../ansible/provision.yml",
       "extra_arguments": [ "-vvvv" ],
       "user": "{{ user `aws_ssh_username` }}",
       "ansible_env_vars": [

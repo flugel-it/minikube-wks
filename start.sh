@@ -1,39 +1,32 @@
 #!/usr/bin/env bash
 set -x
-PROPERTIES='aws.properties'
-TF_VAR='terraform/network/variables.tf'
-TEMPLATE='template.json'
+AWS_PROPERTIES='aws.properties'
+PACKER_TEMPLATE='packer/template.json'
+EC2_VARIABLES='terraform/instance/variables.tf'
 
-source ${PROPERTIES}
+source ${AWS_PROPERTIES}
 
-echo "Creating VPC and SubNet"
+sed -i "s#<REGION>#${REGION}#g" ${PACKER_TEMPLATE}
+sed -i "s#<VPC_ID>#${VPC_ID}#g" ${PACKER_TEMPLATE}
+sed -i "s#<SUBNET_ID>#${SUBNET_ID}#g" ${PACKER_TEMPLATE}
+sed -i "s#<AMI_NAME>#${AMI_NAME}#g" ${PACKER_TEMPLATE}
+sed -i "s#<BASE_AMI>#${BASE_AMI}#g" ${PACKER_TEMPLATE}
+sed -i "s#<INSTANCE_TYPE>#${INSTANCE_TYPE}#g" ${PACKER_TEMPLATE}
 
-sed -i "s#<REGION>#${REGION}#g" ${TF_VAR}
-sed -i "s#<VPC_TAG_NAME>#${VPC_TAG_NAME}#g" ${TF_VAR}
-sed -i "s#<SUBNET_TAG_NAME>#${SUBNET_TAG_NAME}#g" ${TF_VAR}
-sed -i "s#<GATEWAY_TAG_NAME>#${GATEWAY_TAG_NAME}#g" ${TF_VAR}
-sed -i "s#<ROUTE_TABLE_TAG_NAME>#${ROUTE_TABLE_TAG_NAME}#g" ${TF_VAR}
+# cd packer && ./createImage.sh
 
-cd terraform/network/
-terraform apply -auto-approve
-cd ../../
+AMI_ID=$(aws ec2 describe-images --region us-east-1  --filters "Name=tag-key,Values=Name,Name=tag-value,Values=${TAG_NAME}" --query 'Images[*].{id:ImageId}' | jq .[].id)
 
-echo "Getting vpc id"
-VPC_ID=$(aws ec2 describe-vpcs --region ${REGION} --filters "Name=tag-key,Values=Name,Name=tag-value,Values=${VPC_TAG_NAME}" --query 'Vpcs[*].{id:VpcId}' | jq .[].id)
-SUBNET_ID=$(aws ec2 describe-subnets --region ${REGION} --filters "Name=tag-key,Values=Name,Name=tag-value,Values=${SUBNET_TAG_NAME}-1" --query 'Subnets[*].{id:SubnetId}' | jq .[].id)
-
-cat << EOF >> 'aws.properties'
-VPC_ID=${VPC_ID}
-SUBNET_ID=${SUBNET_ID}
+cat << EOF >> ${AWS_PROPERTIES}
+AMI_ID=${AMI_ID}
 EOF
 
-source ${PROPERTIES}
-sed -i "s#<REGION>#${REGION}#g" ${TEMPLATE}
-sed -i "s#<VPC_ID>#${VPC_ID}#g" ${TEMPLATE}
-sed -i "s#<SUBNET_ID>#${SUBNET_ID}#g" ${TEMPLATE}
+source ${AWS_PROPERTIES}
 
-sed -i "s#<BASE_AMI>#${BASE_AMI}#g" ${TEMPLATE}
-sed -i "s#<AMI_NAME>#${AMI_NAME}#g" ${TEMPLATE}
-sed -i "s#<INSTANCE_TYPE>#${INSTANCE_TYPE}#g" ${TEMPLATE}
+sed -i "s#<REGION>#${REGION}#g" ${EC2_VARIABLES}
+sed -i "s#<AMI_ID>#${AMI_ID}#g" ${EC2_VARIABLES}
+sed -i "s#<INSTANCE_TYPE>#${INSTANCE_TYPE}#g" ${EC2_VARIABLES}
+sed -i "s#<TAG_NAME>#${TAG_NAME}#g" ${EC2_VARIABLES}
+sed -i "s#<SUBNET_ID>#${SUBNET_ID}#g" ${EC2_VARIABLES}
 
-./createImage.sh
+(cd terraform/instance; terraform plan; sleep 10)
