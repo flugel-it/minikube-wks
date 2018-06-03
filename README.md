@@ -1,49 +1,25 @@
 # minikube-wks
 Minikube workstation - Launch it quickly in AWS to try Kubernetes
 
-## Step 1 (Required)
-- Install packer (Linux)
-```
-    wget https://releases.hashicorp.com/packer/1.2.4/packer_1.2.4_linux_amd64.zip
-    unzip packer_1.2.4_linux_amd64.zip
-    sudo mv packer /usr/local/bin/
-    packer -v
-    rm packer_1.2.4_linux_amd64.zip
-```
-- Install Packer (Mac)
-```
-    brew install packer
-```
+* PS: These package is required to execute this tests.
+    - packer
+    - terraform
+    - jq
 
-- Install Terraform (Mac)
-```
-    wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_darwin_amd64.zip
-    unzip terraform_0.11.7_darwin_amd64.zip
-    sudo mv terraform /usr/local/bin/terraform
-    rm terraform_0.11.7_darwin_amd64.zip
-```
-- Install Terraform (Linux)
-```
-    wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
-    unzip terraform_0.11.7_linux_amd64.zip
-    sudo mv terraform /usr/local/bin/terraform
-    terraform -version
-    rm terraform_0.11.7_linux_amd64.zip
-```
+## Setp 1
+- Create new IAM using Packer and new EC2 with Terraform
+    - 1: Edit the aws.properties file and put the information about your AWS VPC and Subnet, example:
+    ```
+        REGION="us-east-1"
+        VPC_ID="vpc-1c44e464"
+        SUBNET_ID="subnet-b81cf797"
+    ```
+    - 2: Execute ./start.sh
+    This script make the sed command on Packer template and terraform
+    variables changing the many parameters.
 
-## Setp 2 - Create Image using Packer and Instance with Terraform
-- Execute script start.sh
+## Step 2 - Access Instance with SSH, Start and test Minikube
+- To access the instance and test k8s command use the new script: ssh-connection.sh
 
-## Step 3 - Access Instance with SSH, Start and test Minikube
-```
-ssh -i key/id_rsa ubunu@18.206.223.132
-sudo minikube start --vm-driver=none
-sudo kubectl create namespace minikube-wks
-sudo kubectl run hello-minikube --image=k8s.gcr.io/echoserver:1.4 --port=8080 --namespace=minikube-wks
-sudo kubectl expose deployment hello-minikube --type=NodePort --namespace=minikube-wks
-sudo kubectl get pod --namespace=minikube-wks
-sudo kubectl describe pod hello-minikube --namespace=minikube-wks
-```
-
-# Step 4 - Destoy resouces using terraform
+## Step 3 - Destroy EC2 resources with Terraform
 - cd terraform/instance/ && terraform destroy -force
