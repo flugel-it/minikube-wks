@@ -1,7 +1,7 @@
 # minikube-wks
 Minikube workstation - Launch it quickly in AWS to try Kubernetes
 
-* PS: These package is required to execute this tests.
+* PS: These package are required to execute this tests.
     - packer
     - terraform
     - jq
@@ -13,6 +13,7 @@ Minikube workstation - Launch it quickly in AWS to try Kubernetes
         REGION="us-east-1"
         VPC_ID="vpc-1c44e464"
         SUBNET_ID="subnet-b81cf797"
+        BASE_AMI="ami-80861296"
     ```
     - 2: Execute ./start.sh
     This script make the sed command on Packer template and terraform
