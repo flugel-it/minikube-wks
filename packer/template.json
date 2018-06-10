@@ -1,0 +1,77 @@
+{
+  "variables": {
+    "destination_regions": "<REGION>",
+    "aws_vpc_id": "<VPC_ID>",
+    "aws_subnet_id": "<SUBNET_ID>",
+    "aws_ssh_username": "ubuntu"
+  },
+
+  "builders": [
+      {
+        "type": "amazon-ebs",
+        "access_key": "{{user `aws_access_key`}}",
+        "secret_key": "{{user `aws_secret_key`}}",
+        "region": "{{user `destination_regions`}}",
+        "ami_regions": "{{user `destination_regions`}}",
+        "source_ami": "<BASE_AMI>",
+        "instance_type": "<INSTANCE_TYPE>",
+        "vpc_id": "{{user `aws_vpc_id`}}",
+        "subnet_id": "{{user `aws_subnet_id`}}",
+        "ssh_username": "ubuntu",
+        "ami_name": "<TAG_NAME>-{{timestamp}}",
+        "tags": {
+          "Name": "<TAG_NAME>",
+          "OS_Version": "ubuntu"
+        }
+      }
+  ],
+
+  "provisioners": [
+
+    {
+      "type": "file",
+      "source": "../ansible/hosts",
+      "destination": "~/hosts"
+    },
+
+    {
+      "type": "file",
+      "source": "../scripts/install.sh",
+      "destination": "/tmp/install.sh"
+    },
+
+    {
+      "type": "shell",
+      "inline": [
+        "cd /tmp/ && chmod +x install.sh && ./install.sh",
+        "sudo mv ~/hosts /etc/ansible/hosts"
+        ]
+    },
+
+    {
+      "type": "ansible",
+      "playbook_file": "../ansible/provision.yml",
+      "extra_arguments": [ "-vvvv" ],
+      "user": "{{ user `aws_ssh_username` }}",
+      "ansible_env_vars": [
+        "ANSIBLE_NOCOLOR=True",
+        "ANSIBLE_HOST_KEY_CHECKING=False",
+        "ANSIBLE_SSH_ARGS='-o ForwardAgent=yes -o ControlMaster=auto -o ControlPersist=60s'"
+      ]
+    },
+    {
+      "type": "shell",
+      "inline": [
+        "set -x",
+        "minikube config set WantReportErrorPrompt false",
+        "minikube version"
+      ]
+    }
+  ]
+}
+
+
+
+
+
+

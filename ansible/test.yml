@@ -1,0 +1,15 @@
+---
+- hosts: all
+  remote_user: vagrant
+  become: yes
+  become_method: sudo
+
+  tasks:
+  - name: Test
+    command: whoami
+
+  - name: Test2
+    command: date
+
+  - name: Test3
+    command: pwd
