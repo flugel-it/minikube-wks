@@ -36,18 +36,11 @@ Minikube workstation - Set up to be able to run locally or to launch it quickly 
 The ```Vagrantfile``` is set up to run VirtualBox as the Vagrant provider and Ubuntu 16.04.
 
 ##### Step 1:
-Start the vagrant box.
-```
-$ vagrant up
-```
+Execute ````./local-start.sh````.
+
+This script creates the SSH keys, start the vagrant machine, and start an SSH session into the Vagrant enviorement.
 
 ##### Step 2:
-SSH into the Vagrant machine.
-```
-$ vagrant ssh
-```
-
-##### Step 3:
 Start [Minikube](https://kubernetes.io/docs/setup/minikube/#quickstart) and make sure it's running
 ```
 ~$ minikube start
