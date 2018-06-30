@@ -6,7 +6,7 @@ Minikube workstation - Launch it quickly in AWS to try Kubernetes
     - terraform
     - jq
 
-## Setp 1
+## Step 1
 - Create new IAM using Packer and new EC2 with Terraform
     - 1: Edit the aws.properties file and put the information about your AWS VPC and Subnet, example:
     ```
