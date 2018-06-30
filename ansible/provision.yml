@@ -17,6 +17,20 @@
       args:
           executable: /bin/bash
 
+    - name: 'download and add VirtualBox key'
+      shell: "wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -"
+
+    - name: 'add VirtualBox repo'
+      apt_repository: 
+        repo: deb https://download.virtualbox.org/virtualbox/debian xenial contrib
+        state: present
+
+    - name: 'install VirtualBox 5.2'
+      apt:
+        name: virtualbox-5.2
+        update-cache: yes
+        cache_valid_time: 3600
+
     - name: 'download minikube'
       get_url:
         url: 'https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
