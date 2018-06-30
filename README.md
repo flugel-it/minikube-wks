@@ -49,7 +49,7 @@ Start Minikube and make sure it's running
 _Minikube is forced to run with ````--vm-driver=none```` and ````sudo```` due to a VirtualBox [limitation.](https://www.virtualbox.org/ticket/4032)_
 
 ##### Step 3:
-Stop Minikube and logout fromt the Vagrant machine.
+Stop Minikube and logout from the Vagrant machine.
 ````
 ~$ sudo minikube stop
 ~$ logout
