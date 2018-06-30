@@ -41,16 +41,17 @@ Execute ````./local-start.sh````.
 This script creates the SSH keys, start the vagrant machine, and start an SSH session into the Vagrant enviorement.
 
 ##### Step 2:
-Start [Minikube](https://kubernetes.io/docs/setup/minikube/#quickstart) and make sure it's running
-```
-~$ minikube start
-~$ minikube dashboard
-```
+Start Minikube and make sure it's running
+````
+~$ sudo minikube start --vm-driver=none
+~$ sudo minikube dashboard
+````
+_Minikube is forced to run with ````--vm-driver=none```` and ````sudo```` due to a VirtualBox [limitation.](https://www.virtualbox.org/ticket/4032)_
 
 ##### Step 3:
 Stop Minikube and logout fromt the Vagrant machine.
 ````
-~$ minikube stop
+~$ sudo minikube stop
 ~$ logout
 ````
 If all the testing is done, you can proceed to destroy the Vagrant machine by running in your machine.
