@@ -1,9 +1,9 @@
 variable "region" {
-  default = "<REGION>"
+  default = "<REGION_ID>"
 }
 
 variable "ami" {
-  default = "<AMI_ID>"
+  default = ""
 }
 
 variable "vpc_id" {
@@ -15,9 +15,9 @@ variable "subnet_id" {
 }
 
 variable "instance_type" {
-  default = "<INSTANCE_TYPE>"
+  default = "t2.small"
 }
 
 variable "tag_name" {
-  default = "<TAG_NAME>"
+  default = "Minikube-WKS"
 }

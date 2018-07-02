@@ -1,6 +1,6 @@
 {
   "variables": {
-    "destination_regions": "<REGION>",
+    "destination_regions": "<REGION_ID>",
     "aws_vpc_id": "<VPC_ID>",
     "aws_subnet_id": "<SUBNET_ID>",
     "aws_ssh_username": "ubuntu"
@@ -13,14 +13,14 @@
         "secret_key": "{{user `aws_secret_key`}}",
         "region": "{{user `destination_regions`}}",
         "ami_regions": "{{user `destination_regions`}}",
-        "source_ami": "<BASE_AMI>",
-        "instance_type": "<INSTANCE_TYPE>",
+        "source_ami": "<AMI_ID>",
+        "instance_type": "t2.small",
         "vpc_id": "{{user `aws_vpc_id`}}",
         "subnet_id": "{{user `aws_subnet_id`}}",
         "ssh_username": "ubuntu",
-        "ami_name": "<TAG_NAME>-{{timestamp}}",
+        "ami_name": "Minikube-WKS-{{timestamp}}",
         "tags": {
-          "Name": "<TAG_NAME>",
+          "Name": "Minikube-WKS",
           "OS_Version": "ubuntu"
         }
       }

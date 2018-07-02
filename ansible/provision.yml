@@ -17,10 +17,26 @@
       args:
           executable: /bin/bash
 
+    - name: 'download and add Docker key'
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: 'add Docker repo'
+      apt_repository: 
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+        state: present
+
+    - name: 'install Docker'
+      apt:
+        name: docker-ce
+        update-cache: yes
+        cache_valid_time: 3600
+
     - name: 'download minikube'
       get_url:
         url: 'https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64'
-        sha256sum: '7c03650d33e029f1dbf810d27dc1fc197ad9b889f645a4d5c353bb1c46d3ff2a'
+        sha256sum: 'dfe361f86288a4cedcdc3bffbbe5b4716c7ee19cbb82d70696b0f20596a15c65'
         dest: /usr/local/bin/minikube
         mode: 0755
         owner: ubuntu
@@ -34,7 +50,6 @@
         mode: 0755
         owner: ubuntu
         group: ubuntu
-
 
     - name: 'copy minikube envs'
       copy:
