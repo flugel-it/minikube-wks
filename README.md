@@ -44,7 +44,7 @@ This script creates the SSH keys, start the vagrant machine, and start an SSH se
 Start Minikube and make sure it's running
 ````
 ~$ sudo minikube start --vm-driver=none
-~$ sudo minikube dashboard
+~$ sudo minikube status
 ````
 _Minikube is forced to run with ````--vm-driver=none```` and ````sudo```` due to a VirtualBox [limitation.](https://www.virtualbox.org/ticket/4032)_
 
