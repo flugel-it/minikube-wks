@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-pod-lister
+  namespace: default
+spec:
+  replicas: 1
+  template:
+  metadata:
+    labels:
+    #k8s-app: k8s-pod-lister
+  spec:
+    containers:
+    - name: k8s-pod-lister
+      image: marianord/k8s-pod-lister:beta1
+      imagePullPolicy: "IfNotPresent"
+      ports:
+      - containerPort: 5035
