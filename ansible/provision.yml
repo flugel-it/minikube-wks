@@ -63,9 +63,3 @@
       shell: "source /etc/profile.d/minikube.sh"
       args:
           executable: /bin/bash
-
-    - name: 'start and check if minikube is running'
-      command: "{{ item }}"
-      with_items:
-        - minikube start --vm-driver=none
-        - minikube status
