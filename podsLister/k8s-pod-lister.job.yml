@@ -1,0 +1,13 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pod-lister
+spec:
+  template:
+    spec:
+      containers:
+      - name: pod-lister
+        image: marianord/k8s-pod-lister:beta2
+        imagePullPolicy: Always
+        command: ["python", "app.py"]
+      restartPolicy: Never

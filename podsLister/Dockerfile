@@ -10,6 +10,7 @@ WORKDIR /k8s-pod-lister/src
 
 # Install dependencies
 COPY requirements.txt /k8s-pod-lister/src
+COPY app.py /k8s-pod-lister/src
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Set port to be exposed
