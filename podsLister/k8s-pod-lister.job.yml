@@ -7,7 +7,7 @@ spec:
     spec:
       containers:
       - name: pod-lister
-        image: marianord/k8s-pod-lister:beta2
+        image: marianord/k8s-pod-lister:beta3
         imagePullPolicy: Always
         command: ["python", "app.py"]
       restartPolicy: Never

@@ -22,7 +22,9 @@ def main():
     # utility. If no argument provided, the config will be loaded from
     # default location.
     # Change kube config location (set up in scripts/env-minikube.sh)
-    kubeconfig = os.environ["KUBECONFIG"]
+    #kubeconfig = os.environ["KUBECONFIG"]
+    kubeconfig = '/home/vagrant/.kube/config'
+    print(kubeconfig)
     config.load_kube_config(config_file=kubeconfig)
 
     v1 = client.CoreV1Api()
