@@ -21,7 +21,7 @@ kubectl describe jobs/pod-lister
 ````
 
 ````
-$pods = (kubectl get pods --selector=job-name=pod-lister --output=jsonpath={.items..metadata.name})
+pods=$(kubectl get pods --selector=job-name=pod-lister --output=jsonpath={.items..metadata.name})
 kubectl logs $pods
 ````
 

@@ -5,9 +5,22 @@ metadata:
 spec:
   template:
     spec:
+      volumes:
+      - name: pod-lister-volume
+        hostPath:
+          # directory location on host
+          path: /home
+          # this field is optional
+          type: Directory
+      restartPolicy: Never
       containers:
       - name: pod-lister
-        image: marianord/k8s-pod-lister:beta3
+        image: marianord/k8s-pod-lister:beta0
         imagePullPolicy: Always
         command: ["python", "app.py"]
-      restartPolicy: Never
+        env:
+        - name: KUBECONFIG
+          value: /home/vagrant/.kube/config
+        volumeMounts:
+        - mountPath: /home
+          name: pod-lister-volume

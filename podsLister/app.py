@@ -22,17 +22,17 @@ def main():
     # utility. If no argument provided, the config will be loaded from
     # default location.
     # Change kube config location (set up in scripts/env-minikube.sh)
-    #kubeconfig = os.environ["KUBECONFIG"]
-    kubeconfig = '/home/vagrant/.kube/config'
-    print(kubeconfig)
+    kubeconfig = os.environ['KUBECONFIG']
+
     config.load_kube_config(config_file=kubeconfig)
 
     v1 = client.CoreV1Api()
-    print("Listing pods with their IPs:")
+    print("\nListing pods with their IPs:\n\n")
     ret = v1.list_pod_for_all_namespaces(watch=False)
+    print("{:15s} {:30s} {:50s}".format("Pod IP", "Namespace", "Pod Name"))
+    print("-"*100)
     for i in ret.items:
-        print("%s\t%s\t%s" %
-              (i.status.pod_ip, i.metadata.namespace, i.metadata.name))
+        print("{!s:15s} {:30s} {:50s}".format(i.status.pod_ip, i.metadata.namespace, i.metadata.name))
 
 
 if __name__ == '__main__':
