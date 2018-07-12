@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+  #k8s-app: k8s-pod-lister
+  name: k8s-pod-lister
+  namespace: default
+spec:
+  type: NodePort
+  ports:
+  - port: 5035
+  selector:
+  #k8s-app: k8s-pod-lister
